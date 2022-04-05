@@ -6,7 +6,8 @@ flare_start_UTC                          = '{{ flare_start_UTC }}'
 flare_end_UTC                            = '{{ flare_end_UTC }}'
 energy_range_science_channel_upper_limit = '{{ energy_range_science_channel_upper_limit }}'
 energy_range_science_channel_lower_limit = '{{ energy_range_science_channel_lower_limit }}'
-map_filename                             = '{{ map_filename }}'
+vis_fwdfit_map_filename                  = '{{ vis_fwdfit_map_filename }}'
+bp_map_filename                          = '{{ bp_map_filename }}'
 L0                                       = '{{ L0 }}'
 B0                                       = '{{ B0 }}'
 RSUN                                     = '{{ apparent_radius_sun }}'
@@ -55,4 +56,5 @@ vis_fwdfit_pso_map.B0 = B0
 vis_fwdfit_pso_map.RSUN = RSUN
 vis_fwdfit_pso_map.roll_angle = roll_angle
 
-map2fits, vis_fwdfit_pso_map, map_filename
+map2fits, bp_nat_map, bp_map_filename
+map2fits, vis_fwdfit_pso_map, vis_fwdfit_map_filename

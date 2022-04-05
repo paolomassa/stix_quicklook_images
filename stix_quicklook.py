@@ -221,7 +221,8 @@ def stix_flare_image_reconstruction(
     energy_range_science_channel_upper_limit: int,
     energy_range_science_channel_lower_limit: int,
     spice_kernel_path: str,
-    map_filename: str,
+    vis_fwdfit_map_filename: str,
+    bp_map_filename: str,
     ssw_home: str,
     idl_home: str,
     stx_quicklook_fwdfit_path: str):
@@ -241,8 +242,10 @@ def stix_flare_image_reconstruction(
             lower bound of the energy range to consider for image reconstruction
         spice_kernel_path: str,
             path of the Solar Orbiter SPICE kerner to use for obtaining the ephemeris data
-        map_filename: str,
-            path and name of the FWDFIT map reconstructed from STIX data
+        vis_fwdfit_map_filename: str,
+            path and name of the VIS_FWDFIT_PSO map reconstructed from STIX data
+        bp_map_filename: str,
+            path and name of the Back Projection map reconstructed from STIX data
         ssw_home: str,
             path of the SSW folder
         idl_home: str,
@@ -287,7 +290,8 @@ def stix_flare_image_reconstruction(
               'flare_end_UTC': flare_end_UTC,
               'energy_range_science_channel_upper_limit': energy_range_science_channel_upper_limit,
               'energy_range_science_channel_lower_limit': energy_range_science_channel_lower_limit,
-              'map_filename': map_filename,
+              'vis_fwdfit_map_filename': vis_fwdfit_map_filename,
+              'bp_map_filename': bp_map_filename, 
               'L0': L0,
               'B0': B0,
               'apparent_radius_sun': apparent_radius_sun,
@@ -299,7 +303,7 @@ def stix_flare_image_reconstruction(
     ssw_resp = ssw.run(stx_quicklook_fwdfit_path + 'stx_quicklook_fwdfit.pro', args=inputs)
     
 
-def create_STIX_map(path_fits, datetime_map, flare_center):
+def create_STIX_map(path_fits, datetime_map, flare_center, method):
     """
     Converts the input FITS to a standard Sunpy Solar map, by
     returning the map containing the STIX source.
@@ -333,7 +337,7 @@ def create_STIX_map(path_fits, datetime_map, flare_center):
     out_header = make_fitswcs_header(this_fits[0].data,
                                      stix_ref_coord,
                                      scale=(1., 1.)*dist_AU/u.AU*u.arcsec/u.pixel,
-                                     instrument="STIX VIS_FWDFIT_PSO map",
+                                     instrument="STIX " + method + " map",
                                      observatory="Solar Orbiter")
 
     # Create the STIX map
