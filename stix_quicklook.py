@@ -23,8 +23,8 @@ from spiceypy.utils.exceptions import NotFoundError
 import warnings
 
 ##### Constants
-km2AU = 6.6845871226706e-9*u.AU/u.km
-
+#km2AU = 6.6845871226706e-9*u.AU/u.km
+import json
 
 
 def load_SOLO_SPICE(path_kernel):
@@ -296,7 +296,7 @@ def stix_flare_image_reconstruction(
               'B0': B0,
               'apparent_radius_sun': apparent_radius_sun,
               'roll_angle_solo': roll_angle_solo}
-    
+            
     # Define SSWIDL environment
     ssw = hissw.Environment(ssw_home=ssw_home,idl_home=idl_home,ssw_packages=['stix'])
     # Run SSWIDL and the procedure 'stx_quicklook_fwdfit.pro'
@@ -331,7 +331,8 @@ def create_STIX_map(path_fits, datetime_map, flare_center, method):
                               frame='helioprojective')
     
     # Get the distance of Solar Orbiter from the Sun (center)
-    dist_AU = np.sqrt(solo_hee.x**2+solo_hee.y**2+solo_hee.z**2)*km2AU
+    dist_km= np.sqrt(solo_hee.x**2+solo_hee.y**2+solo_hee.z**2)*u.km
+    dist_AU= dist_km.to(u.au).value
 
     # Create a FITS header containing the World Coordinate System (WCS) information
     out_header = make_fitswcs_header(this_fits[0].data,
@@ -348,56 +349,3 @@ def create_STIX_map(path_fits, datetime_map, flare_center, method):
     
     
     
-    
-'''
-# Below, a really DIRTY code to put the STIX map on a full-disk image.
-# We just create a full-disk image full of zeros and then stuck in there
-# the STIX map at the right location. This way is a kind of Art Attack (but it works)
-
-
-    ###### Create an "empty" Sunpy solar map
-    
-    # Set the coordinates of the reference pixel of the full-disk map
-    stix_fd_ref_coord = SkyCoord(0*u.arcsec, 
-                                 0*u.arcsec,
-                                 obstime=datetime_map,
-                                 observer=solo_hee.transform_to(HeliographicStonyhurst(obstime=datetime_map)),
-                                 frame='helioprojective')
-
-    # Create a FITS header containing the World Coordinate System (WCS) information
-    # for the full-disk map
-    out_header = make_fitswcs_header(out_shape,
-                                     stix_fd_ref_coord,
-                                     scale=(1., 1.)*dist_AU/u.AU*u.arcsec/u.pixel,
-                                     instrument="STIX (amplitudes only)",
-                                     observatory="Solar Orbiter")
-
-    # Create the STIX full disk map
-    stix_fulldisk = Map((np.zeros(out_shape), out_header))
-    
-    
-    ###### Finally, put the STIX map on the full-disk map
-    
-    # Create the variable containing the axis on the Sun
-    axis_solar_x = np.linspace(float(-dist_AU/u.AU*(out_shape[0]/2.)), 
-                               float(dist_AU/u.AU*(out_shape[0]/2.)), 
-                               num=out_shape[0])
-    axis_solar_y = np.linspace(float(-dist_AU/u.AU*(out_shape[1]/2.)), 
-                               float(dist_AU/u.AU*(out_shape[1]/2.)), 
-                               num=out_shape[1])
-    
-    # Find the indices of the center of the axis
-    ind_center_x = np.argmin(abs(axis_solar_x-flare_center[0]))
-    ind_center_y = np.argmin(abs(axis_solar_y-flare_center[1]))
-    
-    # Put the STIX map on the full-disk map, where its center matches
-    # the center of the axis previously defined
-    shape_submap = stix_map.data.shape
-    x_min = int(ind_center_x-shape_submap[0]/2)
-    x_max = int(ind_center_x+shape_submap[0]/2)
-    y_min = int(ind_center_y-shape_submap[1]/2)
-    y_max = int(ind_center_y+shape_submap[1]/2)
-    stix_fulldisk.data[y_min:y_max,x_min:x_max] = stix_map.data
-
-    return stix_fulldisk
-    '''
