@@ -1,6 +1,6 @@
 PRO  stx_image_reconstruct, path_bkg_file, path_sci_file, $
                             flare_start_UTC, flare_end_UTC, $
-                            energy_range_science_channel_lower_limit, energy_range_science_channel_upper_limit, $
+                            energy_range_lower_limit, energy_range_upper_limit, $
                             energy_range_full_disk_bp_map_channel_lower_limit, energy_range_full_disk_bp_map_channel_upper_limit, $
                             full_disk_bp_map_filename, full_disk_bp_map_size, full_disk_bp_map_subc_index, full_disk_bp_map_mapcenter, $
                             map_size, pixel_size, subc_index, $
@@ -36,7 +36,7 @@ PRO  stx_image_reconstruct, path_bkg_file, path_sci_file, $
 	                (ind_max[1]-full_disk_bp_map_size[1]/2)*pixel_size_full_disk_bp_map[1]+full_disk_bp_map_mapcenter[1]]
 
 	;;***** Re-compute the visibilities (needed for setting the map center correctly and for using subcollimators 3 to 10)
-	energy_range = [energy_range_science_channel_lower_limit,energy_range_science_channel_upper_limit]
+	energy_range = [energy_range_lower_limit,energy_range_upper_limit]
 	vis  = stix2vis_sep2021(path_sci_file, time_range, energy_range, max_bp_coord, $
 	                        xy_flare=max_bp_coord, path_bkg_file=path_bkg_file, subc_index=subc_index, /silent)
 
