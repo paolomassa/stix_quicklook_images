@@ -15,10 +15,10 @@ sock_copy, website_url + uid, out_name, status = status, out_dir = data_folder, 
 
 flare_start_UTC='7-May-2021 18:51:00'
 flare_end_UTC  ='7-May-2021 18:53:40'
-energy_range_full_disk_bp_map_lower_limit=6
-energy_range_full_disk_bp_map_upper_limit=10
-energy_range_lower_limit=22
-energy_range_upper_limit=50
+energy_range_full_disk_bp_map_lower_limit_keV=6
+energy_range_full_disk_bp_map_upper_limit_keV=10
+energy_range_lower_limit_keV=22
+energy_range_upper_limit_keV=50
 full_disk_bp_map_filename=fits_files_folder + 'full_disk_bp_map.fits' 
 full_disk_bp_map_size=[512,512]
 full_disk_bp_map_subc_index=stix_label2ind(['10a','10b','10c','9a','9b','9c','8a','8b','8c','7a','7b','7c'])
@@ -38,8 +38,8 @@ roll_angle=-1.9719335530048476
 
 stx_image_reconstruct, path_bkg_file, path_sci_file, $
   flare_start_UTC, flare_end_UTC, $
-  energy_range_lower_limit, energy_range_upper_limit, $
-  energy_range_full_disk_bp_map_channel_lower_limit, energy_range_full_disk_bp_map_channel_upper_limit, $
+  energy_range_lower_limit_keV, energy_range_upper_limit_keV, $
+  energy_range_full_disk_bp_map_lower_limit_keV, energy_range_full_disk_bp_map_upper_limit_keV, $
   full_disk_bp_map_filename, full_disk_bp_map_size, full_disk_bp_map_subc_index, full_disk_bp_map_mapcenter, $
   map_size, pixel_size, subc_index, $
   bp_map_filename, $
