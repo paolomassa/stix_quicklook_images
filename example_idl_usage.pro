@@ -40,8 +40,8 @@ L0=-97.444793247335838
 B0=-0.31161748599820238
 RSUN=1045.9928616497800
 roll_angle=-1.9719335530048476
-x_offset=0
-y_offset=0    
+x_offset_arcsec=0
+y_offset_arcsec=0    
 
 
 stx_image_reconstruct, path_bkg_file, path_sci_file, $
@@ -55,7 +55,7 @@ stx_image_reconstruct, path_bkg_file, path_sci_file, $
                         em_map_filename, $
                         clean_map_filename, clean_niter, clean_gain, clean_beam_width, clean_uniform_weighting, $
                         L0, B0, RSUN, roll_angle, $
-                        x_offset, y_offset     
+                        x_offset_arcsec, y_offset_arcsec     
 
 fits2map,full_disk_bp_map_filename,full_disk_bp_map
 fits2map,bp_map_filename,bp_map
